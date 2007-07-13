@@ -21,6 +21,7 @@ t/02_ver2.t
 t/03_sockerr.t
 t/03_sockerr2.t
 t/04_timeouts.t
+t/04_unknown.t
 t/05_nodata.t
 t/06_badpacket.t
 t/07_insanity.t

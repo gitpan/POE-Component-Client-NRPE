@@ -8,7 +8,7 @@ use Socket;
 use integer;
 use vars qw($VERSION);
 
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 sub check_nrpe {
   my $package = shift;
@@ -190,7 +190,7 @@ sub _send_response {
 	last SWITCH;
      }
      if ( $type eq 'timeout' ) {
-	$response->{result} = 2;
+	$response->{result} = ( $self->{unknown} ? 3 : 2 );
 	$response->{data} = sprintf("CHECK_NRPE: Socket timeout after %d seconds.", $self->{timeout} );
 	last SWITCH;
      }
@@ -364,6 +364,8 @@ Takes a number of parameters:
   'usessl', set this to 0 to disable SSL support with NRPE Version 2, default is 1;
   'command', the command to run remotely, default is '_NRPE_CHECK';
   'context', anything you like that'll fit in a scalar, a ref for instance;
+  'timeout', number of seconds to wait for socket timeouts, default is 10;
+  'unknown', set this to true to make the poco return socket timeouts as UNKNOWN instead of CRITICAL;
 
 The 'session' parameter is only required if you wish the output event to go to a different
 session than the calling session, or if you have spawned the poco outside of a session.
