@@ -1,7 +1,7 @@
 package POE::Component::Client::NRPE::SSLify;
 
 use strict qw(subs vars refs);
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 # We need Net::SSLeay or all's a failure!
 BEGIN {
@@ -112,7 +112,7 @@ sub Client_SSLify {
 __END__
 =head1 NAME
 
-POE::Component::CLient::NRPE::SSLify - Makes using NRPE SSL in the world of POE easy!
+POE::Component::Client::NRPE::SSLify - Makes using NRPE SSL in the world of POE easy!
 
 =head1 SYNOPSIS
 
