@@ -3,6 +3,7 @@ name 'POE-Component-Client-NRPE';
 author 'Chris Williams <chris@bingosnet.co.uk>';
 license 'perl';
 version_from 'lib/POE/Component/Client/NRPE.pm';
+abstract_from 'lib/POE/Component/Client/NRPE.pm';
 requires 'Carp' => 0;
 requires 'Socket' => 0;
 requires 'POE'    => 0.38;

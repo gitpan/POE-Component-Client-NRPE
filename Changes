@@ -1,6 +1,9 @@
 POE::Component::Client::NRPE
 ============================
 
+0.04	Wed Jul 25 11:12:46 BST 2007
+	- fixed abstract_from in Makefile.PL
+
 0.03	Sat Jul 14 09:09:09 BST 2007
 	- Documentation fixes.
 

@@ -1,4 +1,5 @@
 --- 
+abstract: a POE Component that implements check_nrpe functionality
 author: Chris Williams <chris@bingosnet.co.uk>
 distribution_type: module
 generated_by: Module::Install version 0.67
@@ -16,4 +17,4 @@ requires:
   POE: 0.38
   POE::Component::SSLify: 0.08
   Socket: 0
-version: 0.03
+version: 0.04
