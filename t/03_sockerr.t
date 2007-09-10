@@ -48,7 +48,7 @@ sub _response {
   my ($kernel,$heap,$res) = @_[KERNEL,HEAP,ARG0];
   ok( $res->{context}->{thing} eq 'moo', 'Context data was okay' );
   ok( $res->{version} eq '2', 'Response version' );
-  ok( $res->{result} eq '3', 'The result code was okay' );
+  ok( $res->{result} eq '3', 'The result code was okay' ) or diag("Got '$res->{result}', but expected '3'\n");
   diag( $res->{data}, "\n" );
   return;
 }

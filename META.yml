@@ -17,4 +17,4 @@ requires:
   POE: 0.38
   POE::Component::SSLify: 0.08
   Socket: 0
-version: 0.04
+version: 0.05
