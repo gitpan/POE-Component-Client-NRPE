@@ -1,6 +1,7 @@
 package POE::Component::Client::NRPE;
 
 use strict;
+use warnings;
 use POE qw(Wheel::SocketFactory Filter::Stream Wheel::ReadWrite);
 use POE::Component::Client::NRPE::SSLify qw( Client_SSLify );
 use Carp;
@@ -8,7 +9,7 @@ use Socket;
 use integer;
 use vars qw($VERSION);
 
-$VERSION = '0.06';
+$VERSION = '0.08';
 
 sub check_nrpe {
   my $package = shift;

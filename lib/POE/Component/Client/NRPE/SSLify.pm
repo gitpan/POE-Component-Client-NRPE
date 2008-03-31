@@ -1,7 +1,7 @@
 package POE::Component::Client::NRPE::SSLify;
 
 use strict qw(subs vars refs);
-our $VERSION = '0.02';
+use warnings;
 
 # We need Net::SSLeay or all's a failure!
 BEGIN {
@@ -32,9 +32,11 @@ BEGIN {
 
 # Do the exporting magic...
 require Exporter;
-use vars qw( @ISA @EXPORT_OK );
+use vars qw( @ISA @EXPORT_OK $VERSION);
 @ISA = qw( Exporter );
 @EXPORT_OK = qw( Client_SSLify );
+
+$VERSION='0.02';
 
 # Bring in some socket-related stuff
 use Symbol qw( gensym );

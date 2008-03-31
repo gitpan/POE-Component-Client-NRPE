@@ -3,6 +3,7 @@ package POE::Component::Client::NRPE::SSLify::ClientHandle;
 
 # Standard stuff to catch errors
 use strict qw(subs vars refs);				# Make sure we can't mess up
+use warnings;
 
 # Initialize our version
 # $Revision: 1168 $
