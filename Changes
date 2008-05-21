@@ -1,6 +1,10 @@
 POE::Component::Client::NRPE
 ============================
 
+0.10	Wed May 21 10:48:03 BST 2008
+	- removed kwalitee test
+	- added license information
+
 0.08	Mon Mar 31 14:22:56 BST 2008
 	- Kwalitee fixes.
 

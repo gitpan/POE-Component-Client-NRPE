@@ -1,7 +1,9 @@
+use strict;
 use inc::Module::Install;
 name 'POE-Component-Client-NRPE';
 author 'Chris Williams <chris@bingosnet.co.uk>';
 license 'perl';
+perl_version '5.000';
 version_from 'lib/POE/Component/Client/NRPE.pm';
 abstract_from 'lib/POE/Component/Client/NRPE.pm';
 requires 'warnings::compat' => 0 if $] < 5.006;
