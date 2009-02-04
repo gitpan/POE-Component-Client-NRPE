@@ -3,13 +3,14 @@ package POE::Component::Client::NRPE;
 use strict;
 use warnings;
 use POE qw(Wheel::SocketFactory Filter::Stream Wheel::ReadWrite);
-use POE::Component::Client::NRPE::SSLify qw( Client_SSLify );
+use Net::SSLeay;
+use POE::Component::SSLify qw( Client_SSLify );
 use Carp;
 use Socket;
 use integer;
 use vars qw($VERSION);
 
-$VERSION = '0.10';
+$VERSION = '0.12';
 
 sub check_nrpe {
   my $package = shift;
@@ -96,7 +97,9 @@ sub _sock_up {
   delete $self->{sockfactory};
   # Only version 2 supports SSL
   if ( $self->{version} == 2 and $self->{usessl} ) {
-	eval { $socket = Client_SSLify( $socket ); };
+	my $ctx = Net::SSLeay::CTX_tlsv1_new();
+	Net::SSLeay::CTX_set_cipher_list( $ctx, 'ADH');
+	eval { $socket = Client_SSLify( $socket, undef, undef, $ctx ); };
 	warn "Failed to SSLify the socket: $@\n" if $@;
   }
   $self->{socket} = new POE::Wheel::ReadWrite
@@ -292,7 +295,7 @@ sub _crc32 {
     return $crc;
 }
 
-1;
+'POE it';
 __END__
 
 =head1 NAME

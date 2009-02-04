@@ -33,9 +33,9 @@ sub _start {
 
 sub _response {
   my ($kernel,$heap,$res) = @_[KERNEL,HEAP,ARG0];
-  ok( $res->{context}->{thing} eq 'moo', 'Context data was okay' );
-  ok( $res->{version} eq '2', 'Response version' );
-  ok( $res->{result} eq '3', 'The result code was okay' );
+  is( $res->{context}->{thing}, 'moo', 'Context data was okay' );
+  is( $res->{version}, '2', 'Response version' );
+  is( $res->{result}, '3', 'The result code was okay' );
   diag( $res->{data}, "\n" );
   return;
 }

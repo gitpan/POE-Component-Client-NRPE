@@ -3,18 +3,15 @@ use Test::More tests => 8;
 BEGIN {	use_ok( 'POE::Component::Client::NRPE' ) };
 
 use Socket;
-use POE qw(Wheel::SocketFactory Filter::Stream);
+use POE qw(Filter::Stream);
+use Test::POE::Server::TCP;
 
 POE::Session->create(
   package_states => [
 	'main' => [qw(
 			_start 
-			_server_error 
-			_server_accepted 
 			_response 
-			_client_error 
-			_client_input
-			_client_flush
+			nrped_client_input
 	)],
   ],
 );
@@ -24,13 +21,11 @@ exit 0;
 
 sub _start {
   my ($kernel,$heap) = @_[KERNEL,HEAP];
-
-  $heap->{factory} = POE::Wheel::SocketFactory->new(
-	BindAddress => '127.0.0.1',
-        SuccessEvent => '_server_accepted',
-        FailureEvent => '_server_error',
+  $heap->{nrped} = Test::POE::Server::TCP->spawn(
+        filter => POE::Filter::Stream->new(),
+        prefix => 'nrped',
   );
-  my $port = ( unpack_sockaddr_in $heap->{factory}->getsockname() )[0];
+  my $port = $heap->{nrped}->port();
 
   my $check = POE::Component::Client::NRPE->check_nrpe( 
 	host  => '127.0.0.1',
@@ -48,52 +43,25 @@ sub _start {
 
 sub _response {
   my ($kernel,$heap,$res) = @_[KERNEL,HEAP,ARG0];
-  ok( $res->{context}->{thing} eq 'moo', 'Context data was okay' );
-  ok( $res->{version} eq '2', 'Response version' );
-  ok( $res->{result} eq '3', 'The result code was okay' );
+  is( $res->{context}->{thing}, 'moo', 'Context data was okay' );
+  is( $res->{version}, '2', 'Response version' );
+  is( $res->{result}, '3', 'The result code was okay' );
   diag($res->{data}, "\n");
-  delete $heap->{factory};
+  $heap->{nrped}->shutdown();
   return;
 }
 
-sub _server_error {
-  die "Shit happened\n";
-}
-
-sub _server_accepted {
-  my ($kernel,$heap,$socket) = @_[KERNEL,HEAP,ARG0];
-  my $wheel = POE::Wheel::ReadWrite->new(
-	Handle => $socket,
-	Filter => POE::Filter::Stream->new(),
-	InputEvent => '_client_input',
-        ErrorEvent => '_client_error',
-	FlushedEvent => '_client_flush',
-  );
-  $heap->{clients}->{ $wheel->ID() } = $wheel;
-  return;
-}
-
-sub _client_flush {
-  my ($heap,$wheel_id) = @_[HEAP,ARG0];
-  delete $heap->{clients}->{ $wheel_id };
-  return;
-}
-
-sub _client_error {
-  my ( $heap, $wheel_id ) = @_[ HEAP, ARG3 ];
-  delete $heap->{clients}->{$wheel_id};
-  return;
-}
-
-sub _client_input {
-  my ($kernel,$heap,$input,$wheel_id) = @_[KERNEL,HEAP,ARG0,ARG1];
+sub nrped_client_input {
+  my ($kernel,$heap,$id,$input) = @_[KERNEL,HEAP,ARG0,ARG1];
   my @args = unpack "nnNnZ*", $input;
   $args[4]  =~ s/\x00*$//g;
-  ok( $args[0] eq '2', 'Version check' );
-  ok( $args[1] eq '1', 'Query check' );
-  ok( $args[4] eq '_NRPE_CHECK', 'Got a valid command' ) or diag( "Got '$args[5]', expected '_NRPE_CHECK'\n");
+  is( $args[0], '2', 'Version check' );
+  is( $args[1], '1', 'Query check' );
+  is( $args[4], '_NRPE_CHECK', 'Got a valid command' );
   #my $response = _gen_packet_ver2( 'NRPE v2.8.1' );
-  $heap->{clients}->{ $wheel_id }->put( 'What a load of old cock-badger' );
+  #$heap->{clients}->{ $wheel_id }->put( $response );
+  $heap->{nrped}->disconnect( $id );
+  $heap->{nrped}->send_to_client( $id, 'What a load of old cock-badger' );
   return;
 }
 

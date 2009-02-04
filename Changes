@@ -1,6 +1,12 @@
 POE::Component::Client::NRPE
 ============================
 
+0.12	Wed Feb  4 08:54:15 GMT 2009
+	- Removed our hackery version of SSLify
+	- Require 0.14 of SSLify and use the new
+	  custom CTX option to Client_SSLify
+	- Rewrote tests to use Test::POE::Server::TCP
+
 0.10	Wed May 21 10:48:03 BST 2008
 	- removed kwalitee test
 	- added license information
