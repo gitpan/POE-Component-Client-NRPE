@@ -3,12 +3,13 @@ abstract: 'a POE Component that implements check_nrpe functionality'
 author:
   - 'Chris Williams <chris@bingosnet.co.uk>'
 build_requires:
+  ExtUtils::MakeMaker: 6.42
   Test::More: 0.47
   Test::POE::Server::TCP: 0.16
 configure_requires:
-  ExtUtils::MakeMaker: 6.50
+  ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.81'
+generated_by: 'Module::Install version 1.00'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -19,6 +20,10 @@ no_index:
     - examples
     - inc
     - t
+provides:
+  POE::Component::Client::NRPE:
+    file: lib/POE/Component/Client/NRPE.pm
+    version: 0.18
 requires:
   Carp: 0
   Net::SSLeay: 1.3
@@ -27,6 +32,7 @@ requires:
   Socket: 0
   perl: 5.6.0
 resources:
+  homepage: http://github.com/bingos/poe-component-client-nrpe/tree
   license: http://dev.perl.org/licenses/
   repository: git://github.com/bingos/poe-component-client-nrpe.git
-version: 0.16
+version: 0.18
