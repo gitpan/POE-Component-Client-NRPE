@@ -1,6 +1,9 @@
 NAME
-    POE::Component::Client::NRPE - a POE Component that implements
+    POE::Component::Client::NRPE - A POE Component that implements
     check_nrpe functionality
+
+VERSION
+    version 0.20
 
 SYNOPSIS
        # A simple 'check_nrpe' version 2 clone
@@ -51,6 +54,10 @@ DESCRIPTION
     check_nrpe. It also supports SSL encryption using Net::SSLeay and a
     hacked version of POE::Component::SSLify.
 
+NAME
+    POE::Component::Client::NRPE - a POE Component that implements
+    check_nrpe functionality
+
 CONSTRUCTOR
     check_nrpe
         Takes a number of parameters:
@@ -62,7 +69,10 @@ CONSTRUCTOR
           'version', the NRPE protocol version to use, default is 2;
           'usessl', set this to 0 to disable SSL support with NRPE Version 2, default is 1;
           'command', the command to run remotely, default is '_NRPE_CHECK';
+          'args', any arguments to be passed along with the 'command';
           'context', anything you like that'll fit in a scalar, a ref for instance;
+          'timeout', number of seconds to wait for socket timeouts, default is 10;
+          'unknown', set this to true to make the poco return socket timeouts as UNKNOWN instead of CRITICAL;
 
         The 'session' parameter is only required if you wish the output
         event to go to a different session than the calling session, or if
@@ -82,9 +92,7 @@ OUTPUT EVENT
       'result', the Nagios result code, can be 0,1,2 or 3;
       'data', what the NRPEd gave us by way of output;
 
-AUTHOR
-    Chris "BinGOs" Williams <chris@bingosnet.co.uk>
-
+ACKNOWLEDGEMENTS
     This module uses code derived from
     <http://www.stic-online.de/stic/html/nrpe-generic.html> Copyright (C)
     2006, 2007 STIC GmbH, http://www.stic-online.de
@@ -95,4 +103,14 @@ SEE ALSO
     POE::Component::SSLify
 
     <http://www.nagios.org/>
+
+AUTHOR
+    Chris Williams <chris@bingosnet.co.uk>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2012 by Chris Williams, Apocalypse, Rocco
+    Caputo and STIC GmbH..
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
 
